@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="card shadow p-4 mb-4">
-    <div class="row justify-content-md-center">
+    <div class="row justify-content-md-center mb-3">
         <div class="col col-lg-5">
             <div class="card p-2 mb-2">
                 <div class="card-header mb-3"><h4>Contract Details</h4></div>
                 <form method="POST" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}
-                    
+                    <div class="mb-2">
+                        <label>Contract RUS Number</label>
+                        {{ form.contract_no.label(class="form-label") }}
+                        {{ form.contract_no(class="form-control") }}
+                    </div>
                     <div class="mb-2">
                         <label>Contract Title</label>
                         {{ form.contract_title.label(class="form-label") }}
@@ -17,41 +21,13 @@
                         <label>Contract description</label>
                         {{ form.contract_description.label(class="form-label") }}
                         {{ form.contract_description(class="form-control") }}
-                    </div>
-                    <div class="mb-2">
-                        <label>Contract RUS Number</label>
-                        {{ form.contract_no.label(class="form-label") }}
-                        {{ form.contract_no(class="form-control") }}
-                    </div>
+                    </div>                    
                     <div class="mb-2">
                         <label>Choose DPA/DSA</label>
                         {{ form.contract_form.label(class="form-label") }}
                         {{ form.contract_form(class="form-select") }}
                     </div>
-                    <div class="mb-2">
-                        <label>Contract Status</label>
-                        {{ form.contract_status.label(class="form-label") }}
-                        {{ form.contract_status(class="form-select") }}
-                    </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-2">
-                                    <label>Signed Date</label>
-                                    {{ form.signed_date.label(class="form-label") }}
-                                    {{ form.signed_date(class="form-control") }}
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-check mb-1">
-                                    {{ form.system_registered(class="form-check-input") }}
-                                    {{ form.system_registered.label(class="form-check-label") }}
-                                </div>
-                                <div class="form-check mb-1">
-                                    {{ form.HQ_reported(class="form-check-input") }}
-                                    {{ form.HQ_reported.label(class="form-check-label") }}
-                                </div>
-                            </div>
-                        </div>
+                    
                     <div class="mb-2">
                         <label>PIC KNOX ID</label>
                         {{ form.PIC_id.label(class="form-label") }}
@@ -62,15 +38,10 @@
                         {{ form.PIC_team.label(class="form-label") }}
                         {{ form.PIC_team(class="form-control") }}
                     </div>
-                    <div class="mb-3">
-                        {{ form.files.label(class="form-label") }}
-                        {{ form.files(class="form-control") }}
-                    </div>
-                    <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
                 </form>
             </div>
         </div>
-        <div class="col col-lg-4">
+        <div class="col col-lg-5">
             <div class="card p-2 mb-2">
                 <div class="card-header mb-3"><h4>Partner Details</h4></div>
                 <form method="POST" enctype="multipart/form-data">
@@ -88,9 +59,50 @@
                     </div>
 
                 </form>
-
+            </div>
+            <div class="card p-2">
+                <div class="card-header mb-3"><h4>Contract Status</h4></div>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-2">
+                        <label>Contract Status</label>
+                        {{ form.contract_status.label(class="form-label") }}
+                        {{ form.contract_status(class="form-select") }}
+                    </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-2">
+                                    <label>Signed Date</label>
+                                    {{ form.signed_date.label(class="form-label") }}
+                                    {{ form.signed_date(class="form-control") }}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb-2">
+                                    {{ form.system_registered(class="form-check-input") }}
+                                    {{ form.system_registered.label(class="form-check-label") }}
+                                </div>
+                                <div class="form-check mb-2">
+                                    {{ form.HQ_reported(class="form-check-input") }}
+                                    {{ form.HQ_reported.label(class="form-check-label") }}
+                                </div>
+                            </div>
+                        </div>
+                </form>
+            </div>
+            <div class="card p-2">
+                <div class="card-header mb-1"><h4>Contract Documents</h4></div>
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            {{ form.files.label(class="form-label") }}
+                            {{ form.files(class="form-control") }}
+                        </div>
+                    </form>   
             </div>
         </div>
     </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+    </div>
+    
 </div>
 {% endblock %}
