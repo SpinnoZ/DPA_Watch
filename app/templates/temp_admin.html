@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow p-4 mb-4">
+    <h2 class="card-title mb-4">Admin Panel</h2>
+    <form method="POST">
+        <button type="submit" name="create_db" class="btn btn-success mb-3">Create DB</button>
+        <button type="submit" name="drop_db" class="btn btn-danger">Drop DB</button>
+
+    </form>
+</div>
+{% endblock %}

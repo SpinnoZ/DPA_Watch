@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow p-4 mb-4">
+    <h2 class="card-title mb-4">Contracts List</h2>
+    <table class="table table-striped">
+        <thead class="table-primary">
+            <tr>
+                <th>Registration Date</th>
+                <th>Title</th>
+                <th>Contract No</th>
+                <th>Form</th>
+                <th>Status</th>
+                <th>System Registered</th>
+                <th>HQ Reported</th>
+                <th>PIC ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contract in contracts.items %}
+            <tr>
+                <td>{{ contract.registration_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ contract.contract_title }}</td>
+                <td>{{ contract.contract_no }}</td>
+                <td>{{ 'DPA' if contract.contract_form else 'DSA' }}</td>
+                <td>{{ contract.contract_status }}</td>
+                <td>{{ 'Yes' if contract.system_registered else 'No' }}</td>
+                <td>{{ 'Yes' if contract.HQ_reported else 'No' }}</td>
+                <td>{{ contract.PIC_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if contracts.has_prev %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('route_main.contract_list', page=contracts.prev_num) }}">Previous</a></li>
+            {% endif %}
+            {% if contracts.has_next %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('route_main.contract_list', page=contracts.next_num) }}">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

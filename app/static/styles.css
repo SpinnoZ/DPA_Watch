@@ -1,0 +1,19 @@
+body {
+    background-color: #f0f8ff;
+}
+
+.navbar, footer {
+    background-color: #007bff;
+}
+
+.container h1, h2 {
+    color: #004085;
+}
+
+.form-label, .nav-link {
+    color: #ffffff;
+}
+
+.nav-link:hover {
+    color: #cce5ff;
+}
