@@ -3,10 +3,10 @@ from wtforms import StringField, BooleanField, SelectField, DateField, FileField
 from wtforms.validators import DataRequired, Length, Optional
 
 class ContractForm(FlaskForm):
-    contract_title = StringField('Title', validators=[DataRequired()])
+    contract_title = StringField('Contract Title', validators=[DataRequired()])
     contract_description = TextAreaField('Description', validators=[Length(max=120)])
-    contract_no = StringField('Contract No', validators=[DataRequired()])
-    contract_form = SelectField('Form', choices=[(True, 'DPA'), (False, 'DSA')], coerce=bool)
+    contract_no = StringField('Contract RUS Number', validators=[DataRequired()])
+    contract_form = SelectField('DPA/DSA', choices=[(True, 'DPA'), (False, 'DSA')], coerce=bool)
     contract_status = SelectField('Status', choices=[
         ('drafted', 'Drafted'),
         ('confirmed', 'Confirmed'),
@@ -16,7 +16,7 @@ class ContractForm(FlaskForm):
     signed_date = DateField('Signed Date', format='%Y-%m-%d', validators=[Optional()])
     system_registered = BooleanField('System Registered')
     HQ_reported = BooleanField('HQ Reported')
-    PIC_id = StringField('Person in Charge Email', validators=[DataRequired()])
+    PIC_id = StringField('Person in Charge ID', validators=[DataRequired()])
     PIC_team = StringField('Person in Charge Team', validators=[DataRequired()])
     files = FileField('Attach Files (Max 10MB per file)', render_kw={"multiple": True})
     submit = SubmitField('Submit')
