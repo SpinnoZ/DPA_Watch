@@ -26,6 +26,11 @@
                 <td>{{ 'Yes' if contract.system_registered else 'No' }}</td>
                 <td>{{ 'Yes' if contract.HQ_reported else 'No' }}</td>
                 <td>{{ contract.PIC_id }}</td>
+                <td>
+                    <a href="{{ url_for('route_main.contract_details', contract_id=contract.contract_id) }}">
+                        <i class="bi bi-eye text-primary"></i>
+                    </a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

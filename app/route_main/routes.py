@@ -74,3 +74,29 @@ def temp_admin():
         return redirect(url_for('route_main.temp_admin'))
 
     return render_template('temp_admin.html')
+
+@bp.route('/contract/<int:contract_id>', methods=['GET'])
+def contract_details(contract_id):
+    contract = db.session.get(Contract, contract_id)
+    if not contract:
+        flash("No contract found!", "warning")
+        return redirect(url_for('route_main.contract_list'))
+    form = ContractForm(obj=contract)
+    return render_template('contract_details.html', contract=contract, form=form)
+
+@bp.route('/contract/<int:contract_id>/update', methods=['POST'])
+def update_contract(contract_id):
+    contract = Contract.query.get_or_404(contract_id)
+    if not contract:
+       flash("No contract found!", "warning")
+       return redirect(url_for('route_main.contract_list'))
+    form = ContractForm()
+    if form.validate_on_submit():
+        form.populate_obj(contract)
+        db.session.commit()
+        flash("Updated successfully!", "success")
+    else:
+        flash("Validation error", "warning" )
+        for field, errors in form.errors.items():
+            print(f"Field {field} has error: {errors}")
+    return redirect(url_for('route_main.contract_list')) 
