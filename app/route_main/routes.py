@@ -32,9 +32,7 @@ def new_contract():
             tax_no = partner_form.tax_no
         )
         
-        # Save the contract to database
-        db.session.add(contract, a_partner)
-        db.session.commit()
+        
 
         # Create a folder for the contract
         folder_name = f"{datetime.utcnow().strftime('%Y%m%d')}_{form.contract_form.data}_{form.contract_no.data}"
@@ -47,6 +45,12 @@ def new_contract():
                 filename = secure_filename(file.filename)
                 save_path = os.path.join(folder_path, filename)
                 file.save(save_path)
+        
+        contract.contract_folder = folder_name
+        
+        # Save the contract to database
+        db.session.add(contract, a_partner)
+        db.session.commit()
         
         flash("Contract successfully created!", "success")
         return redirect(url_for('route_main.new_contract'))
