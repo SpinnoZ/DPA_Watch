@@ -53,13 +53,12 @@ def new_contract():
         db.session.commit()
         
         flash("Contract successfully created!", "success")
-        return redirect(url_for('route_main.new_contract'))
-    else:
+    elif request.method == 'POST':
         flash("Validation error", "warning" )
         for field, errors in form.errors.items():
             print(f"Field {field} has error: {errors}")
-            print(f"Contract Form is: {form.contract_form}")
-            return redirect(url_for('route_main.contract_list'))
+            print(f"Contract Form is: {form.contract_form.data}")
+            
             
 
     return render_template('new_contract.html', form=form, partner_form=partner_form)
@@ -104,8 +103,18 @@ def update_contract(contract_id):
     form = ContractForm()
     if form.validate_on_submit():
         form.populate_obj(contract)
+        
+
+        # Save uploaded files
+        for file in request.files.getlist('files'):
+            if file and file.filename:
+                filename = secure_filename(file.filename)
+                save_path = os.path.join(os.path.join(current_app.config['UPLOAD_FOLDER'],contract.contract_folder), filename)
+                file.save(save_path)
+        
         db.session.commit()
         flash("Updated successfully!", "success")
+
     else:
         flash("Validation error", "warning" )
         for field, errors in form.errors.items():
