@@ -6,8 +6,8 @@ class ContractForm(FlaskForm):
     contract_title = StringField('Contract Title', validators=[DataRequired()])
     contract_description = TextAreaField('Description', validators=[Length(max=120)])
     contract_no = StringField('Contract RUS Number', validators=[DataRequired()])
-    contract_form = SelectField('DPA/DSA', choices=[(True, 'DPA'), (False, 'DSA')], coerce=bool)
-    contract_status = SelectField('Status', choices=[
+    contract_form = SelectField('DPA/DSA', validators=[Optional()], choices=[(True, 'DPA'), (False, 'DSA')], coerce=bool)
+    contract_status = SelectField('Status', validators=[Optional()], choices=[
         ('drafted', 'Drafted'),
         ('confirmed', 'Confirmed'),
         ('signed', 'Signed'),
@@ -23,4 +23,4 @@ class ContractForm(FlaskForm):
 
 class PartnerForm(FlaskForm):
     partner_name = StringField('Name', validators=[DataRequired()])
-    tax_number = IntegerField('Tax No', validators=[DataRequired()]) # ADD Validation for INN
+    tax_no = IntegerField('Tax No', validators=[DataRequired()]) # ADD Validation for INN

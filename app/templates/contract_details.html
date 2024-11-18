@@ -1,47 +1,180 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="card shadow p-4 mb-4">
 
-<div class="container mt-4">
-    <h2 class="text-primary mb-4">Contract Details</h2>
-    <form method="POST" action="{{ url_for('route_main.update_contract', contract_id=contract.contract_id) }}" novalidate>
-        {{ form.hidden_tag() }}
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Title:</label>
-            <div class="col-sm-10">
-                {{ form.contract_title(class="form-control", disabled=True) }}
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Contract Number:</label>
-            <div class="col-sm-10">
-                {{ form.contract_no(class="form-control", disabled=True) }}
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Person in charge:</label>
-            <div class="col-sm-10">
-                {{ form.PIC_id(class="form-control", disabled=True) }}
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">PIC Team:</label>
-            <div class="col-sm-10">
-                {{ form.PIC_team(class="form-control", disabled=True) }}
-            </div>
-        </div>
+<form method="POST" action="{{ url_for('route_main.update_contract', contract_id=contract.contract_id) }}" enctype="multipart/form-data" novalidate>
+    {{ form.hidden_tag() }}
+    
+    <div class="row justify-content-md-center mb-3">
 
-        <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary me-2" id="edit-btn">Edit</button>
-            <button type="submit" class="btn btn-success" id="save-btn" disabled>Save</button>
-            <a href="{{ url_for('route_main.contract_list') }}" class="btn btn-secondary">Close</a>
-        </div>
+        <div class="col col-lg-5"> <!-- First Column-->
+            <div class="card p-2 mb-2"> <!-- Contract Info card-->
+                <div class="card-header mb-3"><h4>Contract Info</h4></div>
+                <fieldset class="form-group"> <!-- No, Title, Description, DPA/DSA, PIC -->
+                    <div class="form-group">
+                        {{ form.contract_no.label(class="form-control-label") }}
 
-    </form>
+                        {% if form.contract_no.errors %}
+                            {{ form.contract_no(class="form-control is-invalid required") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.contract_no.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.contract_no(class="form-control", disabled=True) }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        
+                        {{ form.contract_title.label(class="form-control-label") }}
+
+                        {% if form.contract_title.errors %}
+                            {{ form.contract_title(class="form-control is-invalid required") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.contract_title.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.contract_title(class="form-control", disabled=True) }}
+                        {% endif %}
+
+                    </div>
+                    <div class="form-group">
+                        
+                        {{ form.contract_description.label(class="form-control-label") }}
+
+                        {% if form.contract_description.errors %}
+                            {{ form.contract_description(class="form-control is-invalid required") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.contract_description.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.contract_description(class="form-control", disabled=True) }}
+                        {% endif %}
+
+                    </div>                    
+                    <div class="form-group">
+                        
+                        {{ form.contract_form.label(class="form-control-label") }}
+                        {{ form.contract_form(class="form-select", disabled=True) }}
+                    </div>
+                    
+                    <div class="form-group">
+                        
+                        {{ form.PIC_id.label(class="form-control-label") }}
+
+                        {% if form.PIC_id.errors %}
+                            {{ form.PIC_id(class="form-control is-invalid required") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.PIC_id.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.PIC_id(class="form-control", disabled=True) }}
+                        {% endif %}
+                        
+                    </div>
+                    <div class="form-group">
+                        
+                        {{ form.PIC_team.label(class="form-control-label") }}
+                        {% if form.PIC_team.errors %}
+                            {{ form.PIC_team(class="form-control is-invalid required") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.PIC_team.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.PIC_team(class="form-control", disabled=True) }}
+                        {% endif %}
+                        
+                    </div>
+                </fieldset>
+            </div>
+        </div> <!--End of First Column-->
+
+        <div class="col col-lg-5"> <!-- Second Column-->
+        
+            <div class="card p-2 mb-2"> <!-- Card Contract Status-->
+                <div class="card-header mb-3"><h4>Contract Status</h4></div>
+                <fieldset class="form-group">
+                    <div class="mb-2">
+                        <label>Contract Status</label>
+                        {{ form.contract_status.label(class="form-label") }}
+                        {{ form.contract_status(class="form-select", disabled=True) }}
+                    </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-2">
+                                    <label>Signed Date</label>
+                                    {{ form.signed_date.label(class="form-label") }}
+                                    {{ form.signed_date(class="form-control", disabled=True) }}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check mb-2">
+                                    {{ form.system_registered(class="form-check-input", disabled=True) }}
+                                    {{ form.system_registered.label(class="form-check-label") }}
+                                </div>
+                                <div class="form-check mb-2">
+                                    {{ form.HQ_reported(class="form-check-input", disabled=True) }}
+                                    {{ form.HQ_reported.label(class="form-check-label") }}
+                                </div>
+                            </div>
+                        </div>
+                </fieldset>
+            </div>
+
+            <div class="card p-2"> <!--Card Documents Upload-->
+                <div class="card-header mb-1"><h4>Contract Documents</h4></div>
+                <fieldset class="form-group">
+                    <div class="mb-3">
+                        {{ form.files.label(class="form-label") }}
+                        {{ form.files(class="form-control", disabled=True) }}
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="card p-2 mb-2"> <!-- Card Partner Info-->
+                <div class="card-header mb-3"><h4>Partner Info</h4></div>
+                <fieldset class="form-group">
+                    <div class="mb-2">
+                        <label>Company Name</label>
+                        {{ partner_form.partner_name.label(class="form-label") }}
+                        {{ partner_form.partner_name(class="form-control") }}
+                    </div>
+                    <div class="mb-2">
+                        <label>Tax Number</label>
+                        {{ partner_form.tax_no.label(class="form-label") }}
+                        {{ partner_form.tax_no(class="form-control") }}
+                    </div>
+                </fieldset>
+
+            </div>
+
+        </div> <!--End Of Second Column-->
+
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary me-1" id="edit-btn">Edit</button>
+        <button type="submit" class="btn btn-success me-1" id="save-btn" disabled>Save</button>
+        <a href="{{ url_for('route_main.contract_list') }}" class="btn btn-secondary">Close</a>
+    </div>
+    
+</form>    
 </div>
 
 <script>
     document.getElementById('edit-btn').addEventListener('click', function() {
         document.querySelectorAll('.form-control').forEach(el => el.disabled = false);
+        document.querySelectorAll('.form-check-input').forEach(el => el.disabled = false);
+        document.querySelectorAll('.form-select').forEach(el => el.disabled = false);
         document.getElementById('save-btn').disabled = false;
     });
 </script>

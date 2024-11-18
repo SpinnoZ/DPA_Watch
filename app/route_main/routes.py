@@ -13,7 +13,7 @@ def new_contract():
     form = ContractForm()
     partner_form = PartnerForm()
     if form.validate_on_submit():
-        # Process form data
+        # Process form data ===> TRY POPULATE AS OBJ
         contract = Contract(
             contract_title=form.contract_title.data,
             contract_description=form.contract_description.data,
@@ -75,21 +75,21 @@ def temp_admin():
 
     return render_template('temp_admin.html')
 
-@bp.route('/contract/<int:contract_id>', methods=['GET'])
+@bp.route('/contract/<int:contract_id>', methods=['GET' ,'POST'])
 def contract_details(contract_id):
     contract = db.session.get(Contract, contract_id)
+    partner = db.session.get(Partner, contract.partner_id)
     if not contract:
         flash("No contract found!", "warning")
         return redirect(url_for('route_main.contract_list'))
     form = ContractForm(obj=contract)
-    return render_template('contract_details.html', contract=contract, form=form)
+    partner_form = PartnerForm(obj=partner)
+    return render_template('contract_details.html', contract=contract, form=form, partner_form=partner_form)
 
-@bp.route('/contract/<int:contract_id>/update', methods=['POST'])
+@bp.route('/contract/<int:contract_id>/update', methods=['POST', 'GET'])
 def update_contract(contract_id):
+    
     contract = Contract.query.get_or_404(contract_id)
-    if not contract:
-       flash("No contract found!", "warning")
-       return redirect(url_for('route_main.contract_list'))
     form = ContractForm()
     if form.validate_on_submit():
         form.populate_obj(contract)
@@ -99,4 +99,6 @@ def update_contract(contract_id):
         flash("Validation error", "warning" )
         for field, errors in form.errors.items():
             print(f"Field {field} has error: {errors}")
+            print(f"Contract_Form is: {form.contract_form.data}")
+            print(f"Firled Contract Status is: { form.contract_status.data}")
     return redirect(url_for('route_main.contract_list')) 
