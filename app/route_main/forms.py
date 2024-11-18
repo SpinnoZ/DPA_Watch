@@ -1,12 +1,13 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, SelectField, DateField, FileField, TextAreaField, RadioField, SubmitField, IntegerField
-from wtforms.validators import DataRequired, Length, Optional
+from wtforms.validators import DataRequired, Length, Optional, InputRequired
 
 class ContractForm(FlaskForm):
     contract_title = StringField('Contract Title', validators=[DataRequired()])
     contract_description = TextAreaField('Description', validators=[Length(max=120)])
     contract_no = StringField('Contract RUS Number', validators=[DataRequired()])
-    contract_form = SelectField('DPA/DSA', validators=[Optional()], choices=[(True, 'DPA'), (False, 'DSA')], coerce=lambda x: x == 'True')
+    contract_form = SelectField('DPA/DSA', choices=[(True, 'DPA'), (False, 'DSA')], coerce=bool)
+    ## lambda x: x == 'True'
     contract_status = SelectField('Status', validators=[Optional()], choices=[
         ('drafted', 'Drafted'),
         ('confirmed', 'Confirmed'),

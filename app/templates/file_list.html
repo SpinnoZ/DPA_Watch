@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    {% for file in files %}
+        <li>
+            {% set f_filename = contract_folder ~ '/' ~ file %}
+            {{ f_filename }} - <a href="{{ url_for('route_main.get_file', filename=f_filename) }}">Download</a>
+        </li>
+
+    {% endfor %}
+
+{% endblock %}

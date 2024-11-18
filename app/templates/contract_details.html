@@ -138,6 +138,7 @@
                         {{ form.files(class="form-control", disabled=True) }}
                     </div>
                 </fieldset>
+                <a href="{{ url_for('route_main.file_list', contract_folder=contract.contract_folder) }}" class="btn btn-sm btn-outline-info">File List</a>
             </div>
 
             <div class="card p-2 mb-2"> <!-- Card Partner Info-->

@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from flask import render_template, request, redirect, url_for, flash, current_app
+from flask import render_template, request, redirect, url_for, flash, current_app, send_file
 from werkzeug.utils import secure_filename
 from app.extensions import db
 from app.models import Contract, Partner, Audit
@@ -54,6 +54,13 @@ def new_contract():
         
         flash("Contract successfully created!", "success")
         return redirect(url_for('route_main.new_contract'))
+    else:
+        flash("Validation error", "warning" )
+        for field, errors in form.errors.items():
+            print(f"Field {field} has error: {errors}")
+            print(f"Contract Form is: {form.contract_form}")
+            return redirect(url_for('route_main.contract_list'))
+            
 
     return render_template('new_contract.html', form=form, partner_form=partner_form)
 
@@ -106,3 +113,14 @@ def update_contract(contract_id):
             print(f"Contract_Form is: {form.contract_form.data}")
             print(f"Firled Contract Status is: { form.contract_status.data}")
     return redirect(url_for('route_main.contract_list')) 
+
+@bp.route('/filelist/<path:contract_folder>')
+def file_list(contract_folder):
+    full_contract_folder = os.path.join(current_app.config['UPLOAD_FOLDER'], contract_folder)
+    files = os.listdir(full_contract_folder)
+    return render_template('file_list.html', files=files, contract_folder=contract_folder)
+
+@bp.route('/download/<path:filename>')
+def get_file(filename):
+    filename = os.path.join(current_app.root_path, 'content/', filename)
+    return send_file(filename, as_attachment=True)
