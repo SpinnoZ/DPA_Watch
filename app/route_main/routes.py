@@ -4,14 +4,14 @@ from flask import render_template, request, redirect, url_for, flash, current_ap
 from werkzeug.utils import secure_filename
 from app.extensions import db
 from app.models import Contract, Partner, Audit
-from .forms import ContractForm, PartnerForm
+from .forms import ContractForm
 from app.route_main import bp
 
 # New contract route
 @bp.route('/new_contract/', methods=['GET', 'POST'])
 def new_contract():
     form = ContractForm()
-    partner_form = PartnerForm()
+    
     if form.validate_on_submit():
         # Process form data ===> TRY POPULATE AS OBJ
         contract = Contract(
@@ -26,11 +26,16 @@ def new_contract():
             PIC_id=form.PIC_id.data,
             PIC_team=form.PIC_team.data
         )
-
+        
         a_partner = Partner(
-            partner_name = partner_form.partner_name,
-            tax_no = partner_form.tax_no
+            partner_name = form.partner_name.data,
+            tax_no = form.tax_no.data
         )
+        
+        print(a_partner.partner_name)
+        print(a_partner.tax_no)
+        db.session.add(contract, a_partner)
+        contract.partner = a_partner
         
         # Create a folder for the contract
         folder_name = f"{datetime.utcnow().strftime('%Y%m%d')}_{form.contract_form.data}_{form.contract_no.data}"
@@ -59,7 +64,7 @@ def new_contract():
             
             
 
-    return render_template('new_contract.html', form=form, partner_form=partner_form)
+    return render_template('new_contract.html', form=form)
 
 # Contract list route
 @bp.route('/contract_list/', methods=['GET'])
@@ -91,8 +96,7 @@ def contract_details(contract_id):
         flash("No contract found!", "warning")
         return redirect(url_for('route_main.contract_list'))
     form = ContractForm(obj=contract)
-    partner_form = PartnerForm(obj=partner)
-    return render_template('contract_details.html', contract=contract, form=form, partner_form=partner_form)
+    return render_template('contract_details.html', contract=contract, form=form)
 
 @bp.route('/contract/<int:contract_id>/update', methods=['POST', 'GET'])
 def update_contract(contract_id):

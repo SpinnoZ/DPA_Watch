@@ -29,11 +29,6 @@ class ContractForm(FlaskForm):
     PIC_id = StringField('Person in Charge ID', validators=[DataRequired()])
     PIC_team = StringField('Person in Charge Team', validators=[DataRequired()])
     files = MultipleFileField('Attach Files (Max 10MB per file)', render_kw={"multiple": True})
-    submit = SubmitField('Submit')
-
-    
-
-class PartnerForm(FlaskForm):
     partner_name = StringField('Name', validators=[DataRequired()])
     tax_no = IntegerField('Tax No', validators=[DataRequired()]) # ADD Validation for INN
     submit = SubmitField('Submit')
