@@ -94,6 +94,16 @@
                         {% endif %}
                         
                     </div>
+
+                    <div class="card p-2 mt-2"> <!--Card Documents Upload-->
+                        <div class="card-header mb-1"><h4>Contract Documents</h4></div>
+                        <fieldset class="form-group">
+                            <div class="mb-3">
+                                {{ form.files.label(class="form-label") }}
+                                {{ form.files(class="form-control") }}
+                            </div>
+                        </fieldset>
+                    </div>
                 </fieldset>
             </div>
         </div> <!--End of First Column-->
@@ -131,16 +141,6 @@
                                 </div>
                             </div>
                         </div>
-                </fieldset>
-            </div>
-
-            <div class="card p-2"> <!--Card Documents Upload-->
-                <div class="card-header mb-1"><h4>Contract Documents</h4></div>
-                <fieldset class="form-group">
-                    <div class="mb-3">
-                        {{ form.files.label(class="form-label") }}
-                        {{ form.files(class="form-control") }}
-                    </div>
                 </fieldset>
             </div>
 

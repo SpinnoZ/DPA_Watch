@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, SelectField, DateField, FileField, TextAreaField, RadioField, SubmitField, IntegerField, MultipleFileField
+from wtforms import StringField, BooleanField, SelectField, DateField, TextAreaField, RadioField, SubmitField, IntegerField, MultipleFileField
 from wtforms.validators import DataRequired, Length, Optional, InputRequired
 
 class ContractForm(FlaskForm):
@@ -36,3 +36,4 @@ class ContractForm(FlaskForm):
 class PartnerForm(FlaskForm):
     partner_name = StringField('Name', validators=[DataRequired()])
     tax_no = IntegerField('Tax No', validators=[DataRequired()]) # ADD Validation for INN
+    submit = SubmitField('Submit')

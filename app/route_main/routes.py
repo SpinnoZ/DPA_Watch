@@ -32,8 +32,6 @@ def new_contract():
             tax_no = partner_form.tax_no
         )
         
-        
-
         # Create a folder for the contract
         folder_name = f"{datetime.utcnow().strftime('%Y%m%d')}_{form.contract_form.data}_{form.contract_no.data}"
         folder_path = os.path.join(current_app.config['UPLOAD_FOLDER'], folder_name)
