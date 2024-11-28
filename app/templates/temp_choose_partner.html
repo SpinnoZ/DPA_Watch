@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    .partner-row {
+        cursor:pointer;
+    }
+</style>
+<div class="container mt-5">
+    <h1>Partner Selection</h1>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#partnerModal">
+        Choose Partner
+    </button>
+
+    <h2 id="selectedPartner" class="mt-4"></h2>
+
+    <form method="POST" action="">
+        <div class="form-group mt-4">
+            <label for="partnerName">Partner Name</label>
+            <input type="text" id="partnerName" name="partner_name" class="form-control" required>
+        </div>
+        <div class="form-group mt-2">
+            <label for="taxNo">Tax Number</label>
+            <input type="number" id="taxNo" name="tax_no" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success mt-3">Submit</button>
+    </form>
+
+    <!-- Modal -->
+    <div class="modal fade" id="partnerModal" tabindex="-1" aria-labelledby="partnerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="partnerModalLabel">Select a Partner</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Partner ID</th>
+                                    <th>Partner Name</th>
+                                    <th>Tax Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for partner in partners %}
+                                <tr class="partner-row" data-partner-name="{{ partner.partner_name }}" data-tax-no="{{ partner.tax_no }}">
+                                    <td>{{ partner.partner_id }}</td>
+                                    <td>{{ partner.partner_name }}</td>
+                                    <td>{{ partner.tax_no }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" id="prevPageItem">
+                                <a class="page-link" href="#" id="prevPage">Back</a>
+                            </li>
+                            <li class="page-item" id="nextPageItem">
+                                <a class="page-link" href="#" id="nextPage">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // Handle row click
+        $('.partner-row').on('click', function() {
+            var partnerName = $(this).data('partner-name');
+            var taxNo = $(this).data('tax-no');
+            $('#partnerName').val(partnerName); // Pre-populate the partner name input
+            $('#taxNo').val(taxNo); // Pre-populate the tax number input
+            $('#partnerModal').modal('hide'); // Close the modal
+        });
+
+        // Pagination logic
+        let currentPage = {{ current_page }};
+        const totalPages = {{ total_pages }};
+        const partnersPerPage = 10;
+
+        function updateTable(page) {
+            // Hide all rows
+            $('.partner-row').hide();
+            // Show only the rows for the current page
+            $('.partner-row').slice((page - 1) * partnersPerPage, page * partnersPerPage).show();
+            
+            // Update pagination button states
+            $('#prevPageItem').toggleClass('disabled', page === 1);
+            $('#nextPageItem').toggleClass('disabled', page === totalPages);
+        }
+
+        $('#prevPage').on('click', function(e) {
+            e.preventDefault();
+            if (currentPage > 1) {
+                currentPage--;
+                updateTable(currentPage);
+            }
+        });
+
+        $('#nextPage').on('click', function(e) {
+            e.preventDefault();
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateTable(currentPage);
+            }
+        });
+
+        // Initial table update
+        updateTable(currentPage);
+    });
+
+</script>
+
+{% endblock %}

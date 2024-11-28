@@ -84,6 +84,16 @@ def temp_admin():
         elif 'drop_db' in request.form:
             db.drop_all()
             flash("Database dropped!", "warning")
+        elif 'partners_populate' in request.form:
+            for i in range(1, 21):
+                partner = Partner(
+                    partner_name=f"partner{i}",
+                    tax_no=f"123{i}"
+                )
+                db.session.add(partner)
+
+            db.session.commit()
+            flash("Partners populated!", "success")
         return redirect(url_for('route_main.temp_admin'))
 
     return render_template('temp_admin.html')
@@ -135,3 +145,16 @@ def file_list(contract_folder):
 def get_file(filename):
     filename = os.path.join(current_app.root_path, 'content/', filename)
     return send_file(filename, as_attachment=True)
+
+
+# # # TEMP PARTNER PAGE
+
+@bp.route("/choose_partner/")
+def choose_partner():
+    partners = Partner.query.all()
+    current_page = 1
+    partners_per_page = 10
+    total_partners = Partner.query.count()
+    total_pages = (total_partners + partners_per_page - 1) // partners_per_page  # Calculate total pages
+
+    return render_template('temp_choose_partner.html', partners=partners, current_page=current_page, total_pages=total_pages, total_partners=total_partners)
