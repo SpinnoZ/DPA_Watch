@@ -19,14 +19,19 @@
 
 
 <div class="ui-widget">
-    <label for="tags">Tags:</label>
+    <label for="partnerInput">Partner Name</label>
     <input id="partnerInput">
+
+    <label for="taxNo">Tax Number:</label>
+    <input id="taxNo">
+    
 </div>
 
 <script>
     $(document).ready(function() {
         // Prepare the partners data for autocomplete
         var partners = {{ partners|tojson }}; // Convert the partners list to JSON
+        var tax_no_list = {{ tax_no_list|tojson }};
 
         // Initialize autocomplete
         $("#partnerInput").autocomplete({
@@ -35,6 +40,20 @@
             select: function(event, ui) {
                 // Populate the input with the selected value
                 $("#partnerInput").val(ui.item.label); // Set the input value to the selected label
+                $("#taxNo").val(ui.item.value)
+                return false; // Prevent the default behavior
+            }
+        });
+
+
+        //try second autocomplete
+        $("#taxNo").autocomplete({
+            source: tax_no_list,
+            minLength: 2, // Minimum characters before autocomplete starts
+            select: function(event, ui) {
+                // Populate the input with the selected value
+                $("#partnerInput").val(ui.item.value); // Set the input value to the selected label
+                $("#taxNo").val(ui.item.label)
                 return false; // Prevent the default behavior
             }
         });

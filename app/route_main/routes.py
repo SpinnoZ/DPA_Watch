@@ -164,7 +164,10 @@ def choose_partner():
 def auto_partners():
     partners = Partner.query.all()
     partners_list = []
+    tax_no_list = []
     for partner in partners:
-        partners_list.append(partner.partner_name)
-    print(partners_list)
-    return render_template('temp_partner_autocomplete.html', partners=partners_list)
+        
+        partners_list.append({"label": partner.partner_name, "value": partner.tax_no})
+        tax_no_list.append({"label": partner.tax_no, "value": partner.partner_name})
+    
+    return render_template('temp_partner_autocomplete.html', partners=partners_list, tax_no_list=tax_no_list)
