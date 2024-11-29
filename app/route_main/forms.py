@@ -32,3 +32,8 @@ class ContractForm(FlaskForm):
     partner_name = StringField('Name', validators=[DataRequired()])
     tax_no = IntegerField('Tax No', validators=[DataRequired()]) # ADD Validation for INN
     submit = SubmitField('Submit')
+
+class NewPartnerForm(FlaskForm):
+    partner_name = StringField('Name', validators=[DataRequired()])
+    tax_no = IntegerField('Tax No', validators=[DataRequired()]) # ADD Validation for INN
+    submit = SubmitField('Submit')
