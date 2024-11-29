@@ -20,11 +20,11 @@
     <form method="POST" action="">
         <div class="form-group mt-4">
             <label for="partnerName">Partner Name</label>
-            <input type="text" id="partnerName" name="partner_name" class="form-control" required>
+            <input type="text" id="partnerName" name="partner_name" class="form-control" disabled>
         </div>
         <div class="form-group mt-2">
             <label for="taxNo">Tax Number</label>
-            <input type="number" id="taxNo" name="tax_no" class="form-control" required>
+            <input type="number" id="taxNo" name="tax_no" class="form-control" disabled>
         </div>
         <button type="submit" class="btn btn-success mt-3">Submit</button>
     </form>
@@ -86,7 +86,7 @@
         });
 
         // Pagination logic
-        let currentPage = {{ current_page }};
+        let currentPage = 1;
         const totalPages = {{ total_pages }};
         const partnersPerPage = 10;
 

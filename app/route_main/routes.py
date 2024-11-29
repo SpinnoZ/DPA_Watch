@@ -152,9 +152,19 @@ def get_file(filename):
 @bp.route("/choose_partner/")
 def choose_partner():
     partners = Partner.query.all()
-    current_page = 1
     partners_per_page = 10
     total_partners = Partner.query.count()
     total_pages = (total_partners + partners_per_page - 1) // partners_per_page  # Calculate total pages
 
-    return render_template('temp_choose_partner.html', partners=partners, current_page=current_page, total_pages=total_pages, total_partners=total_partners)
+    return render_template('temp_choose_partner.html', partners=partners, total_pages=total_pages, total_partners=total_partners)
+
+# # # TEMP PARTNER AUTOCOMPLETE
+
+@bp.route("/auto_partners/")
+def auto_partners():
+    partners = Partner.query.all()
+    partners_list = []
+    for partner in partners:
+        partners_list.append(partner.partner_name)
+    print(partners_list)
+    return render_template('temp_partner_autocomplete.html', partners=partners_list)
