@@ -1,6 +1,52 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newPartnerModal">
+    New Partner
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="newPartnerModal" tabindex="-1" aria-labelledby="newPartnerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newPartnerModalLabel">New Partner</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="POST" enctype="multipart/form-data" novalidate>
+            {{ new_partner.hidden_tag() }}
+            <div class="card p-2 mb-2"> <!-- Card Partner Info-->
+                <fieldset class="form-group">
+                    <div class="mb-2">
+                        <label>Company Name</label>
+                        {{ new_partner.partner_name.label(class="form-label") }}
+                        {{ new_partner.partner_name(class="form-control") }}
+                    </div>
+                    <div class="mb-2">
+                        <label>Tax Number</label>
+                        {{ new_partner.tax_no.label(class="form-label") }}
+                        {{ new_partner.tax_no(class="form-control") }}
+                    </div>
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">{{ new_partner.submit.label.text }}</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
+  <script>
+    function submitForm() {
+        // Here you can add your form submission logic
+        // For example, you can use AJAX to submit the form data if needed
+
+        // Reload the main page
+        location.reload();
+    }
+</script>
 
 {% endblock %}

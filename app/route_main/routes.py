@@ -4,7 +4,7 @@ from flask import render_template, request, redirect, url_for, flash, current_ap
 from werkzeug.utils import secure_filename
 from app.extensions import db
 from app.models import Contract, Partner, Audit
-from .forms import ContractForm
+from .forms import ContractForm, NewPartnerForm
 from app.route_main import bp
 
 # New contract route
@@ -171,3 +171,15 @@ def auto_partners():
         tax_no_list.append({"label": partner.tax_no, "value": partner.partner_name})
     
     return render_template('temp_partner_autocomplete.html', partners=partners_list, tax_no_list=tax_no_list)
+
+# # # TEMP NEW PARTNER IN MODAL
+@bp.route("/new_partner/", methods = ['POST', 'GET'])
+def new_partner():
+    new_partner = NewPartnerForm()
+    if request.method == 'POST':
+        print('Post method detected OK')
+        if new_partner.validate_on_submit():
+            flash(f"New partner! Name: {new_partner.partner_name.data}, INN: {new_partner.tax_no.data}", "success")
+        else:
+            flash("Validation error", "warning" )
+    return render_template('temp_new_partner.html', new_partner=new_partner)
