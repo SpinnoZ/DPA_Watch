@@ -12,6 +12,14 @@ from app.route_main import bp
 def new_contract():
     form = ContractForm()
     
+    partners = Partner.query.all()
+    partners_list = []
+    tax_no_list = []
+    for partner in partners:
+        
+        partners_list.append({"label": partner.partner_name, "value": partner.tax_no})
+        tax_no_list.append({"label": partner.tax_no, "value": partner.partner_name})
+    
     if form.validate_on_submit():
         # Process form data ===> TRY POPULATE AS OBJ
         contract = Contract(
@@ -64,7 +72,7 @@ def new_contract():
             
             
 
-    return render_template('new_contract.html', form=form)
+    return render_template('new_contract.html', form=form, partners=partners_list, tax_no_list=tax_no_list)
 
 # Contract list route
 @bp.route('/contract_list/', methods=['GET'])
