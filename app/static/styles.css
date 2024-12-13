@@ -17,3 +17,7 @@ body {
 .nav-link:hover {
     color: #cce5ff;
 }
+
+.partner-row {
+    cursor:pointer;
+}

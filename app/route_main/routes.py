@@ -164,7 +164,7 @@ def choose_partner():
     total_partners = Partner.query.count()
     total_pages = (total_partners + partners_per_page - 1) // partners_per_page  # Calculate total pages
 
-    return render_template('temp_choose_partner.html', partners=partners, total_pages=total_pages, total_partners=total_partners)
+    return render_template('temp_choose_partner1.html', partners=partners, total_pages=total_pages, total_partners=total_partners)
 
 # # # TEMP PARTNER AUTOCOMPLETE
 

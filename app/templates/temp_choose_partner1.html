@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+<link rel="stylesheet" href="//cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+<script src="//cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+
+
+<div class="card shadow p-4 mb-4">
+    <h2 class="card-title">Partners List</h2>
+
+    <div class="table-responsive">
+        <table id="partnersTable" class="table table-striped">
+            <thead class="table-primary compact">
+                <tr>
+                    <th>Partner Name</th>
+                    <th style="text-align: center;">Tax Number</th>
+                    <th style="text-align: center;">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for partner in partners %}
+                <tr class="partner-row" data-partner-name="{{ partner.partner_name }}" data-tax-no="{{ partner.tax_no }}" 
+                        onclick="window.location='{{ url_for('route_main.new_partner') }}'">                    
+                    <td>{{ partner.partner_name }}</td>
+                    <td style="text-align: center;"> {{ partner.tax_no }}</td>
+                    <td style="text-align: center;">
+                        <a href="#"> <!--add url_for a page to edit chosen partner's record -->
+                            <i class="bi bi-eye text-primary"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#partnersTable').DataTable({
+            "responsive": true,
+            "searching": true,
+            columnDefs: [{ width: '70%', targets: 0 }]
+        });
+    });
+</script>
+
+
+{% endblock %}
