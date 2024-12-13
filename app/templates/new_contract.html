@@ -153,15 +153,32 @@
                 <div class="card-header mb-3"><h4>Partner Info</h4></div>
                 <fieldset class="form-group">
                     <div class="mb-2">
-                        <label>Company Name</label>
-                        {{ form.partner_name.label(class="form-label") }}
-                        {{ form.partner_name(class="form-control", id="partnerInput") }}
+                        
+                        {% if form.partner_name.errors %}
+                            {{ form.partner_name(class="form-control is-invalid required", id="partnerInput", placeholder="Start typing company name") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.partner_name.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.partner_name(class="form-control", id="partnerInput", placeholder="Start typing company name") }}
+                        {% endif %}
+                        
                     </div>
                     <div class="mb-2">
-                        <label>Tax Number</label>
-                        {{ form.tax_no.label(class="form-label") }}
-                        {{ form.tax_no(class="form-control", id="taxNo") }}
                         
+                        {% if form.tax_no.errors %}
+                            {{ form.tax_no(class="form-control is-invalid required", id="taxNo", placeholder="Start typing tax/registration number") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.tax_no.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.tax_no(class="form-control", id="taxNo", placeholder="Start typing tax/registration number") }}
+                        {% endif %}
+                                                
                     </div>
                     
                 </fieldset>
@@ -195,12 +212,20 @@
                 // Populate the input with the selected value
                 $("#partnerInput").val(ui.item.label); // Set the input value to the selected label
                 $("#taxNo").val(ui.item.value)
+                // document.getElementById('partnerInput').disabled = true;
+                document.getElementById('taxNo').disabled = true;
                 return false; // Prevent the default behavior
             }
         });
 
+        $( "#partnerInput" ).on( "keydown", function() {
+            document.getElementById('taxNo').disabled = false;
+        } );
+        $( "#taxNo" ).on( "keydown", function() {
+            document.getElementById('partnerInput').disabled = false;
+        } );
 
-        //try second autocomplete
+        //second autocomplete
         $("#taxNo").autocomplete({
             source: tax_no_list,
             minLength: 2, // Minimum characters before autocomplete starts
@@ -208,6 +233,8 @@
                 // Populate the input with the selected value
                 $("#partnerInput").val(ui.item.value); // Set the input value to the selected label
                 $("#taxNo").val(ui.item.label)
+                document.getElementById('partnerInput').disabled = true;
+                // document.getElementById('taxNo').disabled = true;
                 return false; // Prevent the default behavior
             }
         });

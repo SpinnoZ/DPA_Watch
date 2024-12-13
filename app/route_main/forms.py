@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, SelectField, DateField, TextAreaField, RadioField, SubmitField, IntegerField, MultipleFileField
-from wtforms.validators import DataRequired, Length, Optional, InputRequired
+from wtforms.validators import DataRequired, Length, Optional, InputRequired, ValidationError
+from app.models import Partner
 
 class ContractForm(FlaskForm):
 
@@ -32,6 +33,38 @@ class ContractForm(FlaskForm):
     partner_name = StringField('Name', validators=[DataRequired()])
     tax_no = IntegerField('Tax No', validators=[DataRequired()]) # ADD Validation for INN
     submit = SubmitField('Submit')
+
+    def validate(self, extra_validators=None):
+        # Call the parent validate method
+        initial_validation = super(ContractForm, self).validate(extra_validators)
+        # 
+        if not initial_validation:
+            return False
+
+        # Get the data from the form
+        partner_name = self.partner_name.data
+        tax_no = self.tax_no.data
+
+        # Check if the partner_name exists in the database
+        existing_partner = Partner.query.filter_by(partner_name=partner_name).first()
+        print(f'Partner name: {partner_name}')
+        print(existing_partner)
+        print('================')
+        if existing_partner:
+            if existing_partner.tax_no != tax_no:
+                print('partner name error')
+                self.partner_name.errors.append("This partner name has another tax number.")
+                return False
+
+        # Check if the tax_no exists in the database
+        existing_partner_by_tax_no = Partner.query.filter_by(tax_no=tax_no).first()
+        if existing_partner_by_tax_no:
+            if existing_partner_by_tax_no.partner_name != partner_name:
+                print('repeated tax number error')
+                self.tax_no.errors.append("This tax number is assigned to another partner.")
+                return False
+
+        return True
 
 class NewPartnerForm(FlaskForm):
     partner_name = StringField('Name', validators=[DataRequired()])

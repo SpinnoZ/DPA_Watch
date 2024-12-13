@@ -14,7 +14,7 @@ class Contract(db.Model):
     contract_no = mapped_column(String(50), nullable=False)
     contract_form = mapped_column(Boolean, nullable=False)  # True for DPA, False for DSA
     contract_status = mapped_column(String(20), nullable=False)
-    partner_id = mapped_column(ForeignKey('partners.partner_id'), nullable=True) # ATTENTION: CHANGE TO FALSE WHEN PARTNER DB LOGIC IS READY!
+    partner_id = mapped_column(ForeignKey('partners.partner_id'), nullable=False) # ATTENTION: CHANGE TO FALSE WHEN PARTNER DB LOGIC IS READY!
     signed_date = mapped_column(Date)
     system_registered = mapped_column(Boolean, default=False)
     HQ_reported = mapped_column(Boolean, default=False)
