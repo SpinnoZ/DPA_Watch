@@ -188,6 +188,8 @@ def new_partner():
         print('Post method detected OK')
         if new_partner.validate_on_submit():
             flash(f"New partner! Name: {new_partner.partner_name.data}, INN: {new_partner.tax_no.data}", "success")
+            db.session.add(new_partner)
+            db.session.commit()
         else:
             flash("Validation error", "warning" )
     return render_template('temp_new_partner.html', new_partner=new_partner)
