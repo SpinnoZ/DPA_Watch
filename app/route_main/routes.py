@@ -42,6 +42,8 @@ def new_contract():
         
         print(a_partner.partner_name)
         print(a_partner.tax_no)
+
+        # Add confirmation: if a new partner is submitted, the user shall confirm. Otherwise redirect to contract_update of this contract
         db.session.add(contract, a_partner)
         contract.partner = a_partner
         
@@ -109,11 +111,16 @@ def temp_admin():
 @bp.route('/contract/<int:contract_id>', methods=['GET' ,'POST'])
 def contract_details(contract_id):
     contract = db.session.get(Contract, contract_id)
-    partner = db.session.get(Partner, contract.partner_id)
+    partner = contract.partner
     if not contract:
         flash("No contract found!", "warning")
         return redirect(url_for('route_main.contract_list'))
     form = ContractForm(obj=contract)
+    
+    # Pre-populate partner's info if exists:
+    if partner:
+        form.partner_name.data = partner.partner_name
+        form.tax_no.data = partner.tax_no
     return render_template('contract_details.html', contract=contract, form=form)
 
 @bp.route('/contract/<int:contract_id>/update', methods=['POST', 'GET'])

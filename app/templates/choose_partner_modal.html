@@ -1,0 +1,87 @@
+<!-- Modal for the list of partners in new contract form -->
+
+<link rel="stylesheet" href="//cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+<link rel="stylesheet" href="//cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+<script src="//cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+
+<div class="modal fade" id="PartnerListModal" tabindex="-1" role="dialog" aria-labelledby="PartnerListModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PartnerListModalLabel">Choose Partner</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                
+            </div>
+
+            <div class="modal-body">
+                <!-- Main Content Table -->
+                <div class="card shadow p-4 mb-4">
+                    <h2 class="card-title">Partners List</h2>
+                
+                    <div class="table-responsive">
+                        <table id="partnersTable" class="table table-striped">
+                            <thead class="table-primary compact">
+                                <tr>
+                                    <th>Partner Name</th>
+                                    <th style="text-align: center;">Tax Number</th>
+                                    <th style="text-align: center;">Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for partner in partners %}
+                                <tr class="partner-row">                    
+                                    <td>{{ partner.label }}</td>
+                                    <td style="text-align: center;"> {{ partner.value }}</td>
+                                    <td style="text-align: center;">
+                                        <a href="#"> <!--add url_for a page to edit chosen partner's record -->
+                                            <i class="bi bi-eye text-primary"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Choose Partner</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Init DataTable
+        var table = $('#partnersTable').DataTable({
+            "responsive": true,
+            "searching": true,
+            columnDefs: [{ width: '70%', targets: 0 }]
+        });
+
+        // Handle row click
+        $('#partnersTable tbody').on('click', 'tr', function() {
+                var data = table.row(this).data(); // Get the data for the clicked row
+                var partnerName = data[0]; // Partner Name
+                var partnerNo = data[1]; // Partner Number
+
+                // Set the values in the main window
+                $('#partner_name').val(partnerName);
+                $('#partner_no').val(partnerNo);
+                $('#partnerInput').val(partnerName);
+                $('#taxNo').val(partnerNo);
+
+                // Close the modal
+                $('#PartnerListModal').modal('hide');
+            });
+    });
+</script>

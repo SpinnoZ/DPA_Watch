@@ -183,6 +183,18 @@
                     
                 </fieldset>
 
+                <!-- Button trigger modal -->
+                 <div class="container mt-2">
+                    <div class="d-flex justify-content-around">
+                        <button type="button" class="btn btn-primary mr-4" data-bs-toggle="modal" data-bs-target="#newPartnerModal">
+                            New Partner
+                        </button>
+                        <button type="button" class="btn btn-primary ml-4" data-bs-toggle="modal" data-bs-target="#PartnerListModal">
+                            Choose Partner
+                        </button>
+                    </div>
+                </div>
+
             </div>
 
         </div> <!--End Of Second Column-->
@@ -195,6 +207,12 @@
     
 </form>    
 </div>
+
+<!-- Inject template with a modal window for new partner -->
+ {% include 'new_partner_modal.html' %}
+
+ <!-- Inject template with a modal partners list -->
+  {% include 'choose_partner_modal.html' %}
 
 <!-- Partner Autocomplete Script-->
 
