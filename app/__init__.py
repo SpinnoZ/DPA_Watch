@@ -18,6 +18,8 @@ def create_app():
     # # # REGISTER BLUEPRINTS # # #
     from app.route_main import bp as main_bp
     app.register_blueprint(main_bp)
+    from app.api_routes import api_bp as api_bp
+    app.register_blueprint(api_bp)
 
     # with app.app_context():
     #     from . import routes
