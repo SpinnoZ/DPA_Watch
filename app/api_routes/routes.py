@@ -15,12 +15,12 @@ def contracts_to_dict(contracts):
                 "contractTitle" : c.contract_title,
                 "contractDescription" : c.contract_description,
                 "contractNo": c.contract_no,
-                "contractForm": "DPA" if c.contract_form else "DSA",
+                "contractForm": c.contract_form,
                 "contractStatus" : c.contract_status,
                 "partnerName" : c.partner.partner_name if c.partner else None, #replace to a query to a partner's name
                 "signed_date": c.signed_date.isoformat() if c.signed_date else None,
-                "systemRegistered": "yes" if c.system_registered else "no",
-                "reportedHQ": "yes" if c.HQ_reported else "no",
+                "systemRegistered": c.system_registered,
+                "reportedHQ": c.HQ_reported,
                 "picID": c.PIC_id,
                 "departmentID": c.PIC_team
             }
